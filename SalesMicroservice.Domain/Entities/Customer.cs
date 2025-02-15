@@ -9,26 +9,28 @@ namespace SalesMicroservice.Domain.Entities
     public class Customer
     {
         public Guid CustomerId { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; }
         public string Email { get; set; } = string.Empty;
-        public string PhoneNO { get; set; } = string.Empty;
+        public string PhoneNumber { get; set; } = string.Empty;
         public List<Order> Orders { get; set; } = new();
 
         public Customer()
         {
                 
         }
-        public Customer(string name, string email, string phoneNO)
+        public Customer(string firstName,string lastName, string email, string phoneNumber)
         {
              CustomerId = Guid.NewGuid();
-            Name = name;
+            FirstName = firstName;
+            LastName = lastName;
             Email = email;
-            PhoneNO = phoneNO;
+            PhoneNumber = phoneNumber;
         }
 
-        public static Customer AddNewCustomer(string name, string email, string phoneNO)
+        public static Customer AddNewCustomer(string firstName,string lastName,string email, string phoneNumber)
         {
-                return new Customer(name, email, phoneNO);
+                return new Customer(firstName,lastName,email, phoneNumber);
         }
     }
 }
