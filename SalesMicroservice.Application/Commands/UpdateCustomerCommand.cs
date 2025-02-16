@@ -8,14 +8,8 @@ using SalesMicroservice.Application.Dtos;
 
 namespace SalesMicroservice.Application.Commands
 {
-    public class CreateCustomerCommand : IRequest<Guid>
+    public class UpdateCustomerCommand : IRequest<bool>
     {
-        public CustomerDto CustomerDetails { get; set; }   
-
+        public UpdateCustomerDto Customer { get; set; } 
     }
-
-   
-
-    
-
 }

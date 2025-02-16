@@ -11,18 +11,20 @@ namespace SalesMicroservice.Application.Commands
    public class CreateProductCommand :IRequest<Guid>
     {
 
-        public ProductDto Product { get; set; } = new();
+        public ProductDto ProductDetails { get; set; } = new();
 
-    }
-
-
-    public class UpdateProductCommand : IRequest<bool>
-    {
-        public ProductDto Product { get; set; } = new();
     }
 
     public class DeleteProductCommand : IRequest<bool>
     {
         public Guid ProductId { get; set; }
     }
+
+
+    public class UpdateProductCommand : IRequest<bool>
+    {
+        public UpdateProductDto ProductDetails { get; set; } = new();
+    }
+
+
 }

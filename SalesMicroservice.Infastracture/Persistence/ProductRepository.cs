@@ -25,7 +25,7 @@ namespace SalesMicroservice.Infastracture.Persistence
                 var product = await _salesContext.Products.FindAsync(productId);
                 if (product == null)
                 {
-                    return false;
+                    return false; // Product not found
                 }
 
                 _salesContext.Products.Remove(product);
@@ -33,7 +33,7 @@ namespace SalesMicroservice.Infastracture.Persistence
             }
             catch (Exception)
             {
-
+                
                 throw;
             }
         }
@@ -53,7 +53,7 @@ namespace SalesMicroservice.Infastracture.Persistence
 
         public async Task<Product> GetProductByIdAsync(Guid productId)
         {
-            return await GetProductByIdAsync(productId);
+            return await _salesContext.Products.FindAsync(productId);
         }
 
         public async Task<bool> SaveProductAsync(Product product)

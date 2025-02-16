@@ -10,13 +10,18 @@ namespace SalesMicroservice.Application.Commands
 {
     public class CreateOrderCommand : IRequest<Guid>
     {
-
-        public OrderDto Order { get; set; } = new();
+        public CreateOrderDTO Order { get; set; } = new();
     }
 
+    public class UpdateOrderCommand : IRequest<bool>
+    {
+        public UpdateOrderDTO Order { get; set; } = new();
+    }
 
     public class CancelOrderCommand : IRequest<bool>
     {
         public Guid OrderId { get; set; }
     }
 }
+
+

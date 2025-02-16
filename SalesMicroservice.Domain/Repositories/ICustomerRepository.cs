@@ -14,7 +14,10 @@ namespace SalesMicroservice.Domain.Repositories
         Task<Customer> GetCustomerByIdAsync(Guid customerId);
         Task<IEnumerable<Customer>> GetAllCustomersAsync();
         Task<bool> UpdateCustomerAsync(Customer customer);
-        Task<bool> DeleteCustomerAsync(Guid customerId);
+        Task<bool> DeleteCustomerByIdAsync(Guid customerId);
+
+
+        
 
     }
 }

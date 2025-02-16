@@ -15,31 +15,10 @@ namespace SalesMicroservice.Application.Dtos
         public string PhoneNumber { get; init; }
     }
 
-    public record UpdateCustomerDto
-    {
-
-        public Guid CustomerId { get; set; }
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string PhoneNumber { get; set; } = string.Empty;
-    }
 
 
 
-    public record CreateCustomerDto
-    {
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string PhoneNumber { get; set; } = string.Empty;
-    }
-
-    public record DeleteCustomerDto
-    {
-        public Guid CustomerId { get; set; }
-    }
-
+    
 
 
 }

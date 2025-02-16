@@ -9,10 +9,13 @@ namespace SalesMicroservice.Domain.Entities
     public class Order
     {
         public Guid OrderId { get; set; }
-        public Guid CustomerId { get; private set; }
+        public Guid CustomerId { get; set; }
         public Customer Customer { get; set; } = null!;
         public List<OrderItem> Items { get; set; } = new();
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
+
+  
+        public OrderStatus Status { get; set; } = OrderStatus.Pending; // Default stat
         public decimal TotalAmount { get; set; }
 
         public Order()

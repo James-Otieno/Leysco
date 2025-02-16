@@ -37,4 +37,13 @@ namespace SalesMicroservice.Application.Dtos
     }
 
 
+    public record DeleteOrderDto
+    {
+        public Guid OrderId { get; set; }
+
+
+
+    }
+
+
 }

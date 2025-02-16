@@ -19,7 +19,7 @@ namespace SalesMicroservice.Infastracture.Persistence
                 _salesContext = salesContext??throw new ArgumentNullException(nameof(salesContext));
         }
 
-        public async Task<bool> DeleteCustomerAsync(Guid customerId)
+        public async Task<bool> DeleteCustomerByIdAsync(Guid customerId)
         {
             try
             {
@@ -41,6 +41,7 @@ namespace SalesMicroservice.Infastracture.Persistence
             }
         }
 
+       
         public async Task<IEnumerable<Customer>> GetAllCustomersAsync()
         {
             try
@@ -54,16 +55,18 @@ namespace SalesMicroservice.Infastracture.Persistence
             }
         }
 
-        public async Task<Customer> GetCustomerByIdAsync(Guid customerId)
-        { 
-           return await GetCustomerByIdAsync(customerId);
+        public async Task<Customer?> GetCustomerByIdAsync(Guid customerId)
+        {
+            return await _salesContext.Customers.FindAsync(customerId);
         }
-            
+
+
 
         public async Task<bool> SaveCustomerAsync(Customer customer)
         {
             await _salesContext.Customers.AddAsync(customer);
-            return await _salesContext.SaveChangesAsync() > 0;
+            await _salesContext.SaveChangesAsync();
+            return true;
         }
 
         public async Task<bool> UpdateCustomerAsync(Customer customer)

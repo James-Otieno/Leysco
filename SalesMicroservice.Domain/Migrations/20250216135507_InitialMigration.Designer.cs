@@ -12,7 +12,7 @@ using SalesMicroservice.Domain.Entities;
 namespace SalesMicroservice.Domain.Migrations
 {
     [DbContext(typeof(SalesContext))]
-    [Migration("20250215010107_InitialMigration")]
+    [Migration("20250216135507_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -35,11 +35,15 @@ namespace SalesMicroservice.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNO")
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

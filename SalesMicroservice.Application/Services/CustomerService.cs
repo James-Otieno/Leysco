@@ -19,21 +19,25 @@ namespace SalesMicroservice.Application.Services
 
         }
 
-        public async Task<Guid> CreateCustomerAsync(CreateCustomerCommand customerCommand)
+        public async Task<Guid> CreateCustomerAsync(CreateCustomerCommand createCustomerCommand)
         {
             try
             {
-                var newCustomer = new Customer
-                {
-                    FirstName = customerCommand.Customer.FirstName,
-                    LastName = customerCommand.Customer.LastName,
-                    Email = customerCommand.Customer.Email,
-                    PhoneNumber = customerCommand.Customer.PhoneNumber,
-                    
-                };
+                var newCustomer = Customer.
+                    AddNewCustomer(
+                    createCustomerCommand.CustomerDetails.FirstName,
 
+                    createCustomerCommand.CustomerDetails.LastName,
+                    createCustomerCommand.CustomerDetails.Email,
+                    createCustomerCommand.CustomerDetails.PhoneNumber
+                    
+                    );
                 await _customerRepository.SaveCustomerAsync(newCustomer);
+                // broker
+
                 return newCustomer.CustomerId;
+
+
             }
             catch (Exception)
             {
@@ -42,23 +46,26 @@ namespace SalesMicroservice.Application.Services
             }
         }
 
-        public Task<Guid> CreateCustomerAsync(Customer customer)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<bool> DeleteCustomerAsync(DeleteCustomerCommand customerCommand)
+        public async Task<Guid> DeleteCustomerAsync(DeleteCustomerCommand deleteCustomerCommand)
         {
             try
             {
-                var customer = await _customerRepository.GetCustomerByIdAsync(DeleteCustomerCommand.CustomerId);
+                var customer = await _customerRepository.GetCustomerByIdAsync(deleteCustomerCommand.deleteCustomerDto.CustomerId);
+
                 if (customer == null)
                 {
-                    return false;
+                    throw new Exception("Customer not found");
                 }
 
-                await _customerRepository.DeleteCustomerAsync(customer);
-                return true;
+                // Delete customer using repository
+                var isDeleted = await _customerRepository.DeleteCustomerByIdAsync(customer.CustomerId);
+
+                if (!isDeleted)
+                {
+                    throw new Exception("Failed to delete customer.");
+                }
+
+                return customer.CustomerId;
 
             }
             catch (Exception)
@@ -68,24 +75,42 @@ namespace SalesMicroservice.Application.Services
             }
         }
 
-        public Task DeleteCustomerAsync(Guid customerId)
+        public async Task<Guid> UpdateCustomerAsync(UpdateCustomerCommand updateCustomerCommand)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
 
-        public Task<IEnumerable<Customer>> GetAllCustomersAsync()
-        {
-            throw new NotImplementedException();
-        }
+                var customer = await _customerRepository.GetCustomerByIdAsync(updateCustomerCommand.Customer.CustomerId);
 
-        public Task<Customer?> GetCustomerByIdAsync(Guid customerId)
-        {
-            throw new NotImplementedException();
-        }
+                if (customer == null)
+                {
+                    throw new Exception("Customer not found");
+                }
 
-        public Task UpdateCustomerAsync(Customer customer)
-        {
-            throw new NotImplementedException();
+
+                // Update properties
+                customer.FirstName = updateCustomerCommand.Customer.FirstName;
+                customer.LastName = updateCustomerCommand.Customer.LastName;
+                customer.Email = updateCustomerCommand.Customer.Email;
+                customer.PhoneNumber = updateCustomerCommand.Customer.PhoneNumber;
+
+                // Save updates
+                var isUpdated = await _customerRepository.UpdateCustomerAsync(customer);
+
+
+                if (!isUpdated)
+                {
+                    throw new Exception("Failed to update customer.");
+                }
+
+                return customer.CustomerId;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

@@ -21,32 +21,25 @@ namespace SalesMicroservice.Infastracture.Persistence
 
         public async Task<bool> DeleteOrderAsync(Guid orderId)
         {
-            try
-            {
-                var order = await _salesContext.Orders.FindAsync(orderId);
-                if (order == null)
-                {
-                    return false;
-                }
+            var order = await _salesContext.Orders.FindAsync(orderId);
+            if (order == null) return false;
 
-                _salesContext.Orders.Remove(order);
-                return await _salesContext.SaveChangesAsync() > 0;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            _salesContext.Orders.Remove(order);
+            return await _salesContext.SaveChangesAsync() > 0;
         }
 
         public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
-            return await _salesContext.Orders.ToListAsync();
+            return await _salesContext.Orders.Include(o => o.Items).ToListAsync();
         }
 
-        public async Task<Product> GetOrderByIdAsync(Guid orderId)
+        public async  Task<Order?> GetOrderByIdAsync(Guid orderId)
         {
-            return await GetOrderByIdAsync(orderId);
+
+            return await _salesContext.Orders
+               .Include(o => o.Items) 
+               .FirstOrDefaultAsync(o => o.OrderId == orderId);
+
         }
 
         public async Task<bool> SaveOrderAsync(Order order)
@@ -59,6 +52,6 @@ namespace SalesMicroservice.Infastracture.Persistence
         {
             _salesContext.Orders.Update(order);
             return await _salesContext.SaveChangesAsync() > 0;
-        } 
+        }
     }
 }

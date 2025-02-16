@@ -8,14 +8,9 @@ using SalesMicroservice.Application.Dtos;
 
 namespace SalesMicroservice.Application.Commands
 {
-    public class CreateCustomerCommand : IRequest<Guid>
+    public class DeleteCustomerCommand : IRequest<Guid>
     {
-        public CustomerDto CustomerDetails { get; set; }   
 
+        public DeleteCustomerDto ? deleteCustomerDto { get; set; }
     }
-
-   
-
-    
-
 }

@@ -12,8 +12,8 @@ using SalesMicroservice.Domain.Entities;
 namespace SalesMicroservice.Domain.Migrations
 {
     [DbContext(typeof(SalesContext))]
-    [Migration("20250215011053_InitialMigration12")]
-    partial class InitialMigration12
+    [Migration("20250216173222_migration1")]
+    partial class migration1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,11 +35,15 @@ namespace SalesMicroservice.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNO")
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -59,6 +63,9 @@ namespace SalesMicroservice.Domain.Migrations
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
