@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Azure.Core;
 using SalesMicroservice.Application.Commands;
 using SalesMicroservice.Application.Dtos;
 using SalesMicroservice.Domain.Entities;
@@ -44,34 +45,64 @@ namespace SalesMicroservice.Application.Services
             }
         }
 
-            private decimal CalculateTotalAmount(List<OrderItemDTO> items)
-        {
-            decimal total = 0;
-            foreach (var item in items)
-            {
-                total += item.Price * item.Quantity;
-            }
-            return total;
-
-
-
-        }
+        
 
         public async Task<Guid> CreateOrderAsync(CreateOrderCommand createOrderCommand)
         {
+            decimal totalWithVAT = CalculateTotalAmount(createOrderCommand.Order.Items); // Calculate the total amount with VAT
+
+            // Create the new order object while passing the total amount including VAT
             var newOrder = Order.CreateNewOrder(
                 createOrderCommand.Order.CustomerId,
+
                 createOrderCommand.Order.Items.ConvertAll(item => new OrderItem
                 {
                     ProductId = item.ProductId,
                     Price = item.Price,
                     Quantity = item.Quantity
-                })
+                }),
+                totalWithVAT // Pass the calculated total with VAT to the order creation
             );
 
+            // Save the order asynchronously to the repository
             await _orderRepository.SaveOrderAsync(newOrder);
+
+            // Return the order ID after saving the order
             return newOrder.OrderId;
+
         }
+
+
+        private static decimal CalculateTotalAmount(List<OrderItemDTO> items)
+        {
+            try
+            {
+                const decimal vatRate = 0.16m; // VAT at 16%
+                decimal totalWithVAT = 0;
+
+                foreach (var item in items)
+                {
+                    decimal itemTotal = item.Price * item.Quantity; 
+                    decimal itemVAT = itemTotal * vatRate;         
+                    decimal itemTotalWithVAT = itemTotal + itemVAT; 
+                    Console.WriteLine($"[DEBUG] Product: {item.ProductName}, Total: {itemTotal}, VAT: {itemVAT}, Total with VAT: {itemTotalWithVAT}");
+
+                    totalWithVAT += itemTotalWithVAT; 
+                }
+
+                Console.WriteLine($"[DEBUG] Order Total with VAT: {totalWithVAT}");
+                return totalWithVAT; 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] Error calculating total amount: {ex.Message}");
+                throw new InvalidOperationException("Error calculating total amount", ex);
+            }
+        }
+
+
+
+
 
         public async Task<IEnumerable<OrderDto>> GetAllOrdersAsync()
         {
@@ -128,7 +159,7 @@ namespace SalesMicroservice.Application.Services
                     Price = item.Price,
                     Quantity = item.Quantity
                 });
-                order.TotalAmount = CalculateTotalAmount(updateOrderCommand.Order.Items);
+                order.TotalAmount = CalculateTotalAmount (updateOrderCommand.Order.Items);
 
                 return await _orderRepository.UpdateOrderAsync(order);
             }

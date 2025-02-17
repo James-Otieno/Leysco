@@ -81,7 +81,8 @@ namespace Auth.Application.Services
                 if (validatedToken is JwtSecurityToken jwtSecurityToken &&
                     jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    var expiryClaim = principal.FindFirstValue(JwtRegisteredClaimNames.Exp);
+                    // Replace the line causing the error with the following code
+                    var expiryClaim = principal.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Exp)?.Value;
 
                     if (expiryClaim != null && long.TryParse(expiryClaim, out var expiryTime))
                     {

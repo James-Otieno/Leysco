@@ -50,20 +50,16 @@ builder.Services.AddSingleton<IBus>(broker);
 builder.Services.AddSingleton<MessageDispatcher>();
 builder.Services.AddSingleton<AutoSubscriber>(_ =>
 {
-return new AutoSubscriber(_.GetRequiredService<IBus>(), Assembly
-    .GetExecutingAssembly().GetName().Name)
-{
-    AutoSubscriberMessageDispatcher = _.GetRequiredService<MessageDispatcher>()
-};
-
+    return new AutoSubscriber(_.GetRequiredService<IBus>(), Assembly
+        .GetExecutingAssembly().GetName().Name)
+    {
+        AutoSubscriberMessageDispatcher = _.GetRequiredService<MessageDispatcher>()
+    };
+});
 builder.Services.AddHostedService<Worker>();
 
 
-
-
-
-
-builder.Services.AddCors(options =>
+ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
         policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
