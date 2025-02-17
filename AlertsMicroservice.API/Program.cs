@@ -1,10 +1,15 @@
+using AlertsMicroservice.API.BrokerConfigurations;
+using System.Reflection;
 using AlertsMicroservice.Application.Command;
 using AlertsMicroservice.Application.Services;
 using AlertsMicroservice.Application.Settings;
 using AlertsMicroservice.Domain.Entities;
 using AlertsMicroservice.Domain.Repositories;
 using AlertsMicroservice.Infastracture.Persistence;
+using EasyNetQ.AutoSubscribe;
+using EasyNetQ;
 using Microsoft.EntityFrameworkCore;
+using AlertsMicroservice.API.Consumer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +34,23 @@ builder.Services
 
 var mySettings = builder.Configuration.GetSection("MailSettings").Get<MailSettings>();
 builder.Services.AddSingleton(mySettings);
+
+var broker = RabbitHutch.CreateBus(builder.Configuration["RabbitMQ:RabbitConn"]);
+builder.Services.AddSingleton<IBus>(broker);
+builder.Services.AddSingleton<MessageDispatcher>();
+builder.Services.AddSingleton<AutoSubscriber>(_ =>
+{
+return new AutoSubscriber(_.GetRequiredService<IBus>(), Assembly
+    .GetExecutingAssembly().GetName().Name)
+{
+    AutoSubscriberMessageDispatcher = _.GetRequiredService<MessageDispatcher>()
+};
+
+});
+
+builder.Services.AddScoped<NewCustomerEventConsumer>();
+builder.Services.AddHostedService<Worker>();
+
 
 var app = builder.Build();
 

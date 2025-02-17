@@ -1,4 +1,6 @@
 using System.Reflection;
+using EasyNetQ.AutoSubscribe;
+using EasyNetQ;
 using Microsoft.EntityFrameworkCore;
 using SalesMicroservice.Application.Commands;
 using SalesMicroservice.Application.Mappings;
@@ -7,6 +9,7 @@ using SalesMicroservice.Application.Services;
 using SalesMicroservice.Domain.Entities;
 using SalesMicroservice.Domain.Repositories;
 using SalesMicroservice.Infastracture.Persistence;
+using SalesMicroService.Api.BrokerConfigurations;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,6 +44,23 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(ty
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(UpdateOrderStatusCommandHandler)));
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(SearchCustomerQueryHandler)));
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(SearchProductsQueryHandler)));
+
+var broker = RabbitHutch.CreateBus(builder.Configuration["RabbitMQ:RabbitConn"]);
+builder.Services.AddSingleton<IBus>(broker);
+builder.Services.AddSingleton<MessageDispatcher>();
+builder.Services.AddSingleton<AutoSubscriber>(_ =>
+{
+return new AutoSubscriber(_.GetRequiredService<IBus>(), Assembly
+    .GetExecutingAssembly().GetName().Name)
+{
+    AutoSubscriberMessageDispatcher = _.GetRequiredService<MessageDispatcher>()
+};
+
+builder.Services.AddHostedService<Worker>();
+
+
+
+
 
 
 builder.Services.AddCors(options =>
