@@ -10,7 +10,7 @@ namespace SalesMicroservice.Domain.Entities
     {
         public Guid CustomerId { get; set; }
         public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; }
+        public string LastName { get; set; } 
         public string Email { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
         public List<Order> Orders { get; set; } = new();
@@ -18,7 +18,7 @@ namespace SalesMicroservice.Domain.Entities
         public Customer()
         {
                 
-        }
+       }
         public Customer(string firstName,string lastName, string email, string phoneNumber)
         {
              CustomerId = Guid.NewGuid();

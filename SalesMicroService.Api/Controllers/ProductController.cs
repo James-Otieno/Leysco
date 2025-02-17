@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SalesMicroservice.Application.Commands;
+using SalesMicroservice.Application.Dtos;
+using SalesMicroservice.Application.Queries;
 
 namespace SalesMicroService.Api.Controllers
 {
@@ -63,6 +65,32 @@ namespace SalesMicroService.Api.Controllers
                 return StatusCode(500, $"Error deleting product: {ex.Message}");
             }
         }
+
+        [HttpPost("search-products")]
+        public async Task<IActionResult> SearchProducts([FromBody] ProductSearchDto searchCriteria)
+        {
+            var query = new SearchProductsQuery(searchCriteria);
+            var products = await _mediator.Send(query);
+            return Ok(products);
+        }
+
+        [HttpPost("search-orders")]
+        public async Task<IActionResult> SearchOrders([FromBody] OrderSearchDto searchCriteria)
+        {
+            var query = new SearchOrdersQuery(searchCriteria);
+            var orders = await _mediator.Send(query);
+            return Ok(orders);
+        }
+
+        [HttpPost("search-customers")]
+        public async Task<IActionResult> SearchCustomers([FromBody] CustomerSearchDto searchCriteria)
+        {
+            var query = new SearchCustomersQuery(searchCriteria);
+            var customers = await _mediator.Send(query);
+            return Ok(customers);
+        }
+
+
 
 
 

@@ -1,16 +1,19 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using SalesMicroservice.Application.Commands;
+using SalesMicroservice.Application.Mappings;
+using SalesMicroservice.Application.Queries;
 using SalesMicroservice.Application.Services;
 using SalesMicroservice.Domain.Entities;
 using SalesMicroservice.Domain.Repositories;
 using SalesMicroservice.Infastracture.Persistence;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 var connectionString = builder.Configuration.GetConnectionString("SALES");
 builder.Services.AddDbContext<SalesContext>(opt =>
 opt.UseSqlServer(connectionString));
@@ -19,6 +22,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
@@ -34,6 +39,8 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(ty
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(UpdateOrderCommandHandler)));
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(CreateProductCommandHandler)));
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(UpdateOrderStatusCommandHandler)));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(SearchCustomerQueryHandler)));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(SearchProductsQueryHandler)));
 
 
 builder.Services.AddCors(options =>
