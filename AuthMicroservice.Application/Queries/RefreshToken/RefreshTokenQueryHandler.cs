@@ -1,13 +1,9 @@
 ﻿using AuthMicroservice.Application.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using System.Threading;
-using System.Threading.Tasks;
 using AuthMicroservice.Domain.Entities;
-using AuthMicroservice.Application.Query.RefreshToken;
-using AuthService.Api.Services;
-using Microsoft.Extensions.Options;
-using AuthService.Api.Config;
+using AuthMicroservice.Application.Services;
+
 
 namespace AuthMicroservice.Application.Queries.RefreshToken
 {
@@ -15,13 +11,12 @@ namespace AuthMicroservice.Application.Queries.RefreshToken
     {
         private readonly UserManager<User> _userManager;
         private readonly IJwtService _jwtService;
-        private readonly JwtConfig _jwtConfig;
+       
 
-        public RefreshTokenQueryHandler(UserManager<User> userManager, IJwtService jwtService, IOptions<JwtConfig> jwtConfig)
+        public RefreshTokenQueryHandler(UserManager<User> userManager, IJwtService jwtService)
         {
             _userManager = userManager;
             _jwtService = jwtService;
-            _jwtConfig = jwtConfig.Value;
         }
 
         public async Task<RefreshTokenResponseDTO> Handle(RefreshTokenQuery request, CancellationToken cancellationToken)

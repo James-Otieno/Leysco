@@ -3,7 +3,7 @@ using AuthMicroservice.Domain.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AuthService.Api.Services
+namespace AuthMicroservice.Application.Services
 {
     public interface IJwtService
     {

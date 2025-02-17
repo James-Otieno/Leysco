@@ -3,14 +3,14 @@ using AuthMicroservice.Application.Queries.LoginUser;
 using AuthMicroservice.Application.Queries.RefreshToken;
 using AuthMicroservice.Domain.Entities;
 using AuthMicroservice.Domain.Entities.Data;
-using AuthService.Api.Config;
-using AuthService.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using MediatR;
+using AuthMicroservice.Application.Config;
+using AuthMicroservice.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,19 +53,17 @@ builder.Services.AddAuthentication(
     
     });
 
-
+builder.Services.AddScoped<UserManager<User>>();
 
 builder.Services.AddScoped<IJwtService, JwtService>();
 
 builder.Services.AddMediatR(cfg =>
 {
+    cfg.RegisterServicesFromAssemblyContaining(typeof(RefreshTokenQueryHandler));
     cfg.RegisterServicesFromAssemblyContaining(typeof(RegisterUserCommandHandler));
     cfg.RegisterServicesFromAssemblyContaining(typeof(LoginUserQueryHandler));
-    cfg.RegisterServicesFromAssemblyContaining(typeof(RefreshTokenQueryHandler));
+   
 });
-
-//builder.Services.AddMediatR(typeof(RegisterUserCommandHandler).Assembly);
-
 
 builder.Services.AddControllers();
 

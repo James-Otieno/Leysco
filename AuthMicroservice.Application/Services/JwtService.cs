@@ -1,6 +1,6 @@
 ﻿using AuthMicroservice.Application.DTO;
 using AuthMicroservice.Domain.Entities;
-using AuthService.Api.Config;
+using AuthMicroservice.Application.Config;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -10,7 +10,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AuthService.Api.Services
+namespace AuthMicroservice.Application.Services
 {
     public class JwtService : IJwtService
     {
@@ -21,7 +21,7 @@ namespace AuthService.Api.Services
             _jwtConfig = jwtConfig.Value;
         }
 
-        // Generate a new JWT token for the user
+       
         public JwtResponse GenerateJwtToken(User user, IList<string> roles)
         {
             var claims = new List<Claim>
@@ -32,8 +32,6 @@ namespace AuthService.Api.Services
                 new Claim("FirstName", user.FirstName),
                 new Claim("LastName", user.LastName)
             };
-
-            // Add roles to the claims
             foreach (var role in roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));

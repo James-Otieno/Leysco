@@ -1,4 +1,4 @@
-﻿namespace AuthService.Api.Config
+﻿namespace AuthMicroservice.Application.Config
 {
     public class JwtConfig
     {

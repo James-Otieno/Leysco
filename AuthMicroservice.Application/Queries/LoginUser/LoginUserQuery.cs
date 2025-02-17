@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AuthMicroservice.Application.Query.LoginUser
+namespace AuthMicroservice.Application.Queries.LoginUser
 {
     public class LoginUserQuery : IRequest<LoginResponseDTO>
     {

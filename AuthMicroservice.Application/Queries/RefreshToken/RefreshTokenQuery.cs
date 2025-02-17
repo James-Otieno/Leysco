@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AuthMicroservice.Application.Query.RefreshToken
+namespace AuthMicroservice.Application.Queries.RefreshToken
 {
     public class RefreshTokenQuery : IRequest<RefreshTokenResponseDTO>
     {

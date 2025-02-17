@@ -1,8 +1,7 @@
 ﻿using AuthMicroservice.Application.DTO;
-using AuthMicroservice.Application.Query.LoginUser;
+using AuthMicroservice.Application.Queries.LoginUser;
+using AuthMicroservice.Application.Services;
 using AuthMicroservice.Domain.Entities;
-using AuthService.Api.Config;
-using AuthService.Api.Services;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -21,14 +20,12 @@ namespace AuthMicroservice.Application.Queries.LoginUser
 
         private readonly IJwtService _jwtService;
 
-        private readonly JwtConfig _jwtConfig;
 
-        public LoginUserQueryHandler(UserManager<User> userManager, SignInManager<User> signInManager, IJwtService jwtService, IOptions<JwtConfig> jwtConfig)
+        public LoginUserQueryHandler(UserManager<User> userManager, SignInManager<User> signInManager, IJwtService jwtService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _jwtService = jwtService;
-            _jwtConfig = jwtConfig.Value;
         }
 
         public async Task<LoginResponseDTO> Handle(LoginUserQuery request, CancellationToken cancellationToken)

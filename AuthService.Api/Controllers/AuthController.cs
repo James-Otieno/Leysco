@@ -1,9 +1,6 @@
 ﻿using AuthMicroservice.Application.Commands.RegisterUser;
-using AuthMicroservice.Application.DTO;
 using AuthMicroservice.Application.Queries.LoginUser;
 using AuthMicroservice.Application.Queries.RefreshToken;
-using AuthMicroservice.Application.Query.LoginUser;
-using AuthMicroservice.Application.Query.RefreshToken;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
