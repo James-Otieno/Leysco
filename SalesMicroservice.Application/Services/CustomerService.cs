@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EasyNetQ;
+using Sales.Contracts;
 using SalesMicroservice.Application.Commands;
 using SalesMicroservice.Domain.Entities;
 using SalesMicroservice.Domain.Repositories;
@@ -12,11 +14,12 @@ namespace SalesMicroservice.Application.Services
     public class CustomerService : ICustomerService
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly IBus _bus;
 
-        public CustomerService(ICustomerRepository customerRepository)
+        public CustomerService(ICustomerRepository customerRepository , IBus bus)
         {
             _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
-
+            _bus = bus; 
         }
 
         public async Task<Guid> CreateCustomerAsync(CreateCustomerCommand createCustomerCommand)
@@ -33,7 +36,13 @@ namespace SalesMicroservice.Application.Services
                     
                     );
                 await _customerRepository.SaveCustomerAsync(newCustomer);
-                // broker
+                //brokerConfiguration
+                await _bus.PubSub.PublishAsync(new NewCustomerEvent
+                {
+                   
+                    Email = createCustomerCommand.CustomerDetails.Email,
+                    FullNames = $"{createCustomerCommand.CustomerDetails.FirstName} {createCustomerCommand.CustomerDetails.LastName}"
+                });
 
                 return newCustomer.CustomerId;
 

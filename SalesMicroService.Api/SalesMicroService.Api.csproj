@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sales.Contracts\Sales.Contracts.csproj" />
     <ProjectReference Include="..\SalesMicroservice.Application\SalesMicroservice.Application.csproj" />
     <ProjectReference Include="..\SalesMicroservice.Domain\SalesMicroservice.Domain.csproj" />
     <ProjectReference Include="..\SalesMicroservice.Infastracture\SalesMicroservice.Infastracture.csproj" />
