@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace Auth.Application.DTO
 {
-    internal class LoginResponseDTO
+   public class LoginResponseDTO
     {
+        public bool Success { get; set; }
+
+        public string Token { get; set; }
+
+        public DateTime Expiration { get; set; }
+
+        public List<string> Errors { get; set; } = new List<string>();
     }
 }

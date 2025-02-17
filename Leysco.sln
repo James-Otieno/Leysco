@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Domain", "Auth.Domain\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Infastracture", "Auth.Infastracture\Auth.Infastracture.csproj", "{2AD22DEB-CDB1-488E-B03F-18240C750DA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthMicroservice.API", "AuthMicroservice.API\AuthMicroservice.API.csproj", "{0BF801BD-A93B-4FB1-ABF9-91689DB4ED4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,10 @@ Global
 		{2AD22DEB-CDB1-488E-B03F-18240C750DA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AD22DEB-CDB1-488E-B03F-18240C750DA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AD22DEB-CDB1-488E-B03F-18240C750DA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BF801BD-A93B-4FB1-ABF9-91689DB4ED4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BF801BD-A93B-4FB1-ABF9-91689DB4ED4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BF801BD-A93B-4FB1-ABF9-91689DB4ED4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BF801BD-A93B-4FB1-ABF9-91689DB4ED4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,5 +124,6 @@ Global
 		{EFA6367C-9117-48FC-8310-5DEC3C653282} = {D3A84894-0E87-4515-AC1A-E96425206950}
 		{49E0D005-3279-4C42-8343-B81C90811287} = {D3A84894-0E87-4515-AC1A-E96425206950}
 		{2AD22DEB-CDB1-488E-B03F-18240C750DA5} = {D3A84894-0E87-4515-AC1A-E96425206950}
+		{0BF801BD-A93B-4FB1-ABF9-91689DB4ED4A} = {D3A84894-0E87-4515-AC1A-E96425206950}
 	EndGlobalSection
 EndGlobal

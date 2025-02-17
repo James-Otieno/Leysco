@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Auth.Application.DTO
 {
-    internal class RefreshTokenResponseDTO
+  public class RefreshTokenResponseDTO
     {
+
+        public bool Success { get; set; }
+        public string Token { get; set; }
+        public DateTime Expiration { get; set; }
+        public List<string> Errors { get; set; }
     }
 }
